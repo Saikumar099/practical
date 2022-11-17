@@ -1,5 +1,9 @@
 pipeline {
     agent any
+      //def mavenHome =  tool name: "Maven-3.8.6", type: "maven"
+      //def mavenCMD = "${mavenHome}/bin/mvn"
+    tools{
+        maven 'maven3.8.6'
        stages{
            stage('checkout code'){
                steps{
@@ -8,7 +12,7 @@ pipeline {
            }
             stage('maven build'){
                 steps{
-                    sh 'mvn package'
+                     sh 'mvn package'
                 }
            }
            stage('sonarqube report'){
