@@ -4,6 +4,7 @@ pipeline {
       //def mavenCMD = "${mavenHome}/bin/mvn"
     tools{
         maven 'maven3.8.6'
+    }
        stages{
            stage('checkout code'){
                steps{
