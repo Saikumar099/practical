@@ -17,11 +17,14 @@ pipeline {
                 }
            }
            stage('sonarqube report'){
+               environment{
+                   scannerHome = tool 'SonarQubeScanner'
+               }
                 steps{
                     withSonarQubeEnv('sonarqube-9.1') { 
                      sh 'mvn sonar:sonar'
                 }
-           }
+             }
            }
            stage('upload artifacts to nexus'){
                steps{
