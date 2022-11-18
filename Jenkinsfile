@@ -19,6 +19,7 @@ pipeline {
            stage('sonarqube report'){
                 steps{
                     withSonarQubeEnv('sonarqube-9.1') { 
+                        def scannerHome = tool 'SonarQubeScanner-4.6.2';
                      sh 'mvn sonar:sonar'
                 }
            }
