@@ -22,7 +22,7 @@ pipeline {
                }
                 steps{
                     withSonarQubeEnv('sonarqube-9.1') { 
-                       sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.host.url=http://13.56.233.39/:9000 -Dsonar.projectKey=project-demo -Dsonar.projectName=project-demo"
+                       sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.host.url=http://13.56.233.39:9000 -Dsonar.projectKey=project-demo -Dsonar.projectName=project-demo"
                         //sh 'mvn sonar:sonar'
                 }
              }
