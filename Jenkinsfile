@@ -18,9 +18,9 @@ pipeline {
                 }
            }
            stage('sonarqube report') {
+             agent any
                environment{
                    scannerHome = tool 'SonarQubeScanner'
-               agent any
                }
                steps{
                     withSonarQubeEnv('sonarqube-9.1') { 
