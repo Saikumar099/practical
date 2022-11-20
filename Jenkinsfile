@@ -44,7 +44,7 @@ pipeline {
            }
            stage('creating tomcat image with webapp'){
                steps{
-                    sh 'docker build -t '
+                    sh 'docker build -t java-web-app'
               }
            }
        }
