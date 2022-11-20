@@ -2,7 +2,7 @@ pipeline {
     agent any
         def dockerHome = tool 'docker'
         //def mavenHome  = tool 'maven'
-        //env.PATH = "${dockerHome}/bin:${env.PATH}"   
+        env.PATH = "${dockerHome}/bin:${env.PATH}"   
       //def mavenHome =  tool name: "Maven-3.8.6", type: "maven"
       //def mavenCMD = "${mavenHome}/bin/mvn"
     tools{
