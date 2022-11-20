@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'master'
+        label 'Built-In Node'
        }  
      tools{
        maven 'maven3.8.6'
@@ -9,6 +9,7 @@ pipeline {
            stage('checkout code') {
                steps{
                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
+                stash includes: '**/target/*.war', name: 'checkout'
                }
            }
             stage('maven build') {
@@ -42,19 +43,12 @@ pipeline {
                                            version: '1.0'
                } 
            }
-           stage('checkout code') {
-               agent {
-                      label 'Docker Server'
-                   }
-               steps{
-               checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
-               }
-           }
            stage('creating tomcat image with webapp') {
-                   agent {
-                      label 'Docker Server'
-                   }
+              agent {
+                    label 'Docker Server'
+              }
                steps{
+                    unstash 'checkout'
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
