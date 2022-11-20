@@ -18,7 +18,7 @@ pipeline {
                 }
            }
            stage('sonarqube report') {
-             agent none
+             agent master
                environment{
                    scannerHome = tool 'SonarQubeScanner'
                }
@@ -30,7 +30,7 @@ pipeline {
              }
            }
            stage('upload artifacts to nexus') {
-             agent none
+             agent master
                steps{
                      nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
                                            classifier: '', 
