@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent{
+         label 'master'
+         }
         //def dockerHome = tool 'docker'
         //def mavenHome  = tool 'maven'
         //env.PATH = "${dockerHome}/bin:${env.PATH}"   
@@ -48,7 +50,7 @@ pipeline {
            stage('creating tomcat image with webapp'){
                agent{
                    label 'Docker-Server'
-               }
+                    }
                steps{
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
