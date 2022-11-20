@@ -1,7 +1,10 @@
 pipeline {
-        tools{
-            maven 'maven3.8.6'
-        }
+    agent {
+        label 'master'
+       }  
+     tools{
+       maven 'maven3.8.6'
+      }
        stages{
            stage('checkout code') {
                steps{
@@ -40,6 +43,9 @@ pipeline {
                } 
            }
            stage('creating tomcat image with webapp') {
+                   agent {
+                      label 'Docker Server'
+                   }
                steps{
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
