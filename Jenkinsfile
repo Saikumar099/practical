@@ -4,17 +4,17 @@ pipeline {
         maven 'maven3.8.6'
     }
        stages{
-           stage('checkout code'){
+           stage('checkout code') {
                steps{
                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
                }
            }
-            stage('maven build'){
+            stage('maven build') {
                 steps{
                      sh 'mvn package'
                 }
            }
-           stage('sonarqube report'){
+           stage('sonarqube report') {
                environment{
                    scannerHome = tool 'SonarQubeScanner'
                }
@@ -25,7 +25,7 @@ pipeline {
                 }
              }
            }
-           stage('upload artifacts to nexus'){
+           stage('upload artifacts to nexus') {
                steps{
                      nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
                                            classifier: '', 
@@ -40,10 +40,10 @@ pipeline {
                                            version: '1.0'
                } 
            }
-           stage('creating tomcat image with webapp'){
-                 agent{
-                       label 'Docker-Server'
-                 }
+           stage('creating tomcat image with webapp') {
+              agent{
+                  label 'Docker-Server'
+               }
                steps{
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
