@@ -1,12 +1,5 @@
 pipeline {
-    agent{
-         label 'master'
-         }
-        //def dockerHome = tool 'docker'
-        //def mavenHome  = tool 'maven'
-        //env.PATH = "${dockerHome}/bin:${env.PATH}"   
-      //def mavenHome =  tool name: "Maven-3.8.6", type: "maven"
-      //def mavenCMD = "${mavenHome}/bin/mvn"
+    agent any
     tools{
         maven 'maven3.8.6'
     }
@@ -48,9 +41,9 @@ pipeline {
                } 
            }
            stage('creating tomcat image with webapp'){
-               agent{
-                   label 'Docker-Server'
-                    }
+                 agent{
+                       label 'Docker-Server'
+                 }
                steps{
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
