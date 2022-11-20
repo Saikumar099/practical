@@ -7,7 +7,6 @@ pipeline {
       //def mavenCMD = "${mavenHome}/bin/mvn"
     tools{
         maven 'maven3.8.6'
-        docker 'docker'
     }
        stages{
            stage('checkout code'){
