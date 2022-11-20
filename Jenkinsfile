@@ -42,6 +42,14 @@ pipeline {
                                            version: '1.0'
                } 
            }
+           stage('checkout code') {
+               agent {
+                      label 'Docker Server'
+                   }
+               steps{
+               checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
+               }
+           }
            stage('creating tomcat image with webapp') {
                    agent {
                       label 'Docker Server'
