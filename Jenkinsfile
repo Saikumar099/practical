@@ -48,7 +48,7 @@ pipeline {
            }
            stage('creating tomcat image with webapp'){
                steps{
-                    sh 'docker build -t java-web-app'
+                    sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER'
               }
            }
        }
