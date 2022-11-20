@@ -42,10 +42,10 @@ pipeline {
                                            version: '1.0'
                } 
            }
-           //stage('creating tomcat image with webapp'){
-              // steps{
-                  // sh 'docker build -t '
-              // }
-           //}
+           stage('creating tomcat image with webapp'){
+               steps{
+                    sh 'docker build -t '
+              }
+           }
        }
 }
