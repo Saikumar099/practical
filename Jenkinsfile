@@ -29,13 +29,23 @@ pipeline {
            }
            stage('upload artifacts to nexus'){
                steps{
-                   sh 'mvn deploy'
+                     nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
+                                           classifier: '', 
+                                           file: 'target/java-web-app-1.0.war', 
+                                           type: 'war']], 
+                                           credentialsId: 'nexus', 
+                                           groupId: 'com.mt', 
+                                           nexusUrl: '54.193.191.66:8081/', 
+                                           nexusVersion: 'nexus3', 
+                                           protocol: 'http', 
+                                           repository: 'practical-1', 
+                                           version: '1.0'
                } 
            }
-           stage('creating tomcat image with webapp'){
-               steps{
-                   sh 'docker build -t '
-               }
-           }
+           //stage('creating tomcat image with webapp'){
+              // steps{
+                  // sh 'docker build -t '
+              // }
+           //}
        }
 }
