@@ -36,7 +36,7 @@ pipeline {
                         // sh "${"SonarQubeScanner"}/bin/sonar-scanner" 
                           sh '''$scannerHome/bin/sonar-scanner 
                         -Dsonar.host.url=http://54.193.191.66:9000 
-                        -Dproject.settings=sonar-project.properties
+                        //-Dproject.settings=sonar-project.properties
                         -Dsonar.projectKey=project-demo 
                         -Dsonar.projectName=project-demo 
                         -Dsonar.java.binaries=target/classes'''
