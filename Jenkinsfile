@@ -7,12 +7,14 @@ pipeline {
       }
        stages{
            stage('checkout code') {
+               agent any
                steps{
                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
                stash 'source'
                }
            }
             stage('maven build') {
+               agent any
                steps{
                      sh 'mvn package'
                 }
