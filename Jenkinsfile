@@ -29,7 +29,8 @@ pipeline {
                steps{
                     unstash 'source'
                     withSonarQubeEnv('sonarqube-9.1') { 
-                       sh "${tool("SonarQubeScanner")}/bin/sonar-scanner" -Dsonar.host.url=http://54.193.191.66:9000
+                       sh "${tool("SonarQubeScanner")}/bin/sonar-scanner" 
+                        -Dsonar.host.url=http://54.193.191.66:9000
                         -Dsonar.projectKey=project-demo 
                         -Dsonar.projectName=project-demo 
                         -Dsonar.java.binaries=target/classes
