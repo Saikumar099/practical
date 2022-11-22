@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
       tools{
        git 'Git'
        maven 'maven3.8.6'
@@ -18,6 +18,8 @@ pipeline {
                 }
            }
            stage('sonarqube report') {
+               agent {
+                    label 'Docker Server'
                environment{
                    scannerHome = tool 'SonarQubeScanner'
                }
@@ -30,6 +32,8 @@ pipeline {
              }
            }
            stage('upload artifacts to nexus') {
+               agent {
+                    label 'Docker Server'
               steps{
                   nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
                                            classifier: '', 
