@@ -3,7 +3,7 @@ pipeline {
       tools{
        git 'Git'
        maven 'maven3.8.6'
-       sonarqubescanner 'SonarQubeScanner'
+       //sonarqubescanner 'SonarQubeScanner'
       }
        stages{
            stage('checkout code') {
