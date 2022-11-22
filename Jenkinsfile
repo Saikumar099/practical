@@ -35,11 +35,11 @@ pipeline {
                     withSonarQubeEnv('sonarqube-9.1') { 
                         // sh "${"SonarQubeScanner"}/bin/sonar-scanner" 
                           sh '''$scannerHome/bin/sonar-scanner 
-                        -Dsonar.host.url=http://54.193.191.66:9000/ 
+                        -Dsonar.host.url=http://54.193.191.66:9000 
                         -Dproject.settings=sonar-project.properties
-                        //-Dsonar.projectKey=project-demo 
-                        //-Dsonar.projectName=project-demo 
-                       //-Dsonar.java.binaries=target/classes'''
+                        -Dsonar.projectKey=project-demo 
+                        -Dsonar.projectName=project-demo 
+                        -Dsonar.java.binaries=target/classes'''
                        //sh 'mvn clean install sonar:sonar -Dsonar.host.url=http://54.176.139.74:9000 -Dproject.settings=sonar-project.properties-Dsonar.projectKey=project-demo -Dsonar.projectName=project-demo'
                 }
              }
