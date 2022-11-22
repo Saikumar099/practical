@@ -1,24 +1,21 @@
 pipeline {
-    agent none
+    agent any
       tools{
        maven 'maven3.8.6'
       }
        stages{
            stage('checkout code') {
-               agent any
                steps{
                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Saikumar099/practical.git']]])  
-                stash includes: '**/target/*.war', name: 'checkout'
+               stash 'source'
                }
            }
             stage('maven build') {
-                agent any
-                steps{
+               steps{
                      sh 'mvn package'
                 }
            }
            stage('sonarqube report') {
-             agent any
                environment{
                    scannerHome = tool 'SonarQubeScanner'
                }
@@ -30,9 +27,8 @@ pipeline {
              }
            }
            stage('upload artifacts to nexus') {
-             agent any
-               steps{
-                     nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
+              steps{
+                  nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
                                            classifier: '', 
                                            file: 'target/java-web-app-1.0.war', 
                                            type: 'war']], 
@@ -50,7 +46,7 @@ pipeline {
                     label 'Docker Server'
               }
                steps{
-                    unstash 'checkout'
+                    unstash 'source'
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
