@@ -39,7 +39,7 @@ pipeline {
                         //-Dproject.settings=sonar-project.properties
                         -Dsonar.projectKey=project-demo 
                         -Dsonar.projectName=project-demo 
-                        -Dsonar.java.binaries=target/classes'''
+                        //-Dsonar.java.binaries=target/classes'''
                        //sh 'mvn clean install sonar:sonar -Dsonar.host.url=http://54.176.139.74:9000 -Dproject.settings=sonar-project.properties-Dsonar.projectKey=project-demo -Dsonar.projectName=project-demo'
                 }
              }
