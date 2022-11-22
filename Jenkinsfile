@@ -5,6 +5,9 @@ pipeline {
        maven 'maven3.8.6'
        //sonarqubescanner 'SonarQubeScanner'
       }
+      environment {     
+              DOCKERHUB_CREDENTIALS= credentials('docker-hub')     
+        } 
        stages{
            stage('checkout code') {
                agent {
@@ -71,13 +74,23 @@ pipeline {
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
+           stage('Login to Docker Hub') { 
+              agent {
+                  label 'Docker Server'
+              }
+              steps{                       	
+              	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
+	            echo 'Login Completed'      
+                   }           
+                }   
            stage('pushing image to dockerhub registry') {
               agent {
                     label 'Docker Server'
               }
-               steps{   
-                   withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/repository/docker/saikumar099/java-web-app') {
+                steps{   
+                  // withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/repository/docker/saikumar099/java-web-app') {
                      sh 'docker push saikumar099/java-web-app:$BUILD_NUMBER'
+                     echo 'Push Image Completed'
                      }  
                   }
              }
