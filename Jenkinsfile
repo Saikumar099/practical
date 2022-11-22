@@ -71,5 +71,15 @@ pipeline {
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
+           stage('pushing image to dockerhub registry') {
+              agent {
+                    label 'Docker Server'
+              }
+               steps{   
+                   withDockerRegistry(credentialsId: 'docker-hub', url: 'https://hub.docker.com/repository/docker/saikumar099/java-web-app') {
+                     sh 'docker push saikumar099/java-web-app:$BUILD_NUMBER'
+                     }  
+                  }
+             }
        }
-}
+  }
