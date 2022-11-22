@@ -1,7 +1,7 @@
 pipeline {
     agent any
       tools{
-       Git 'git'
+       git 'Git'
        maven 'maven3.8.6'
        SonarQube Scanner 'SonarQubeScanner'
       }
