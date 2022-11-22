@@ -88,7 +88,7 @@ pipeline {
                     label 'Docker Server'
               }
                 steps{   
-                  // withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/repository/docker/saikumar099/java-web-app') {
+                  // withDockerRegistry(credentialsId: 'docker-hub', url: 'https://hub.docker.com/repository/docker/saikumar099/java-web-app') {
                      sh 'docker push saikumar099/java-web-app:$BUILD_NUMBER'
                      echo 'Push Image Completed'
                      }  
