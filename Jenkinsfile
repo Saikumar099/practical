@@ -74,7 +74,7 @@ pipeline {
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
-         stage{'pushing image to ECR') {
+         stage('pushing image to ECR') {
              agent {
                     label 'Docker Server'
              }
