@@ -74,6 +74,19 @@ pipeline {
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
+         stage{'pushing image to ECR') {
+             agent {
+                    label 'Docker Server'
+             }
+	    steps{
+		 script{
+		       sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
+		       sh 'docker build -t ecr-demo .'
+		       sh 'docker tag ecr-demo:latest public.ecr.aws/y0r0a3j7/ecr-demo:latest'
+		       sh 'docker push public.ecr.aws/y0r0a3j7/ecr-demo:latest'
+			}
+		   }
+	     }  	  
            stage('Login to Docker Hub') { 
               agent {
                   label 'Docker Server'
