@@ -47,24 +47,24 @@ pipeline {
                 }
              }
            }
-           stage('upload artifacts to nexus') {
-               agent {
-                    label 'Docker Server'
-               }
-              steps{
-                  nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
-                                           classifier: '', 
-                                           file: 'target/java-web-app-1.0.war', 
-                                           type: 'war']], 
-                                           credentialsId: 'nexus', 
-                                           groupId: 'com.mt', 
-                                           nexusUrl: '54.193.191.66:8081/', 
-                                           nexusVersion: 'nexus3', 
-                                           protocol: 'http', 
-                                           repository: 'practical-1', 
-                                           version: '1.0'
-               } 
-           }
+          // stage('upload artifacts to nexus') {
+              // agent {
+                //    label 'Docker Server'
+             //  }
+              //steps{
+               //   nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
+                            //               classifier: '', 
+                              //             file: 'target/java-web-app-1.0.war', 
+                                //           type: 'war']], 
+                                  //         credentialsId: 'nexus', 
+                                    //       groupId: 'com.mt', 
+                                      //     nexusUrl: '54.193.191.66:8081/', 
+                                        //   nexusVersion: 'nexus3', 
+                                          // protocol: 'http', 
+                                         //  repository: 'practical-1', 
+                                        //   version: '1.0'
+              // } 
+           //}
            stage('creating tomcat image with webapp') {
               agent {
                     label 'Docker Server'
