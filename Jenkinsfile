@@ -3,10 +3,9 @@ pipeline {
       tools{
        git 'Git'
        maven 'maven3.8.6'
-       //sonarqubescanner 'SonarQubeScanner'
       }
       environment {     
-              //DOCKERHUB_CREDENTIALS=credentials('docker-hub') 
+              def DOCKERHUB_CREDENTIALS=credentials('docker-hub') 
               AWS_ACCOUNT_ID="948406862378"
               AWS_DEFAULT_REGION="us-west-1"
               IMAGE_REPO_NAME="ecr-demo"
@@ -49,13 +48,13 @@ pipeline {
                         //-Dsonar.projectName=project-demo 
                         //-Dsonar.java.binaries=target/classes'''
                        sh 'mvn clean install sonar:sonar -Dsonar.host.url=http://54.193.191.66:9000 -Dproject.settings=sonar-project.properties -Dsonar.projectKey=project-demo -Dsonar.projectName=project-demo'
+                    }
                 }
-             }
            }
           stage('upload artifacts to nexus') {
                agent {
                     label 'Docker Server'
-              }
+                }
               steps{
                  nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
                                        classifier: '', 
@@ -75,49 +74,35 @@ pipeline {
                     label 'Docker Server'
               }
                steps{
-                    //unstash 'source'
-                   // sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
-		    sh 'docker build -t ecr-demo .'   
+                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'   //for dockerhub
+		             sh 'docker build -t ecr-demo .'   
               }
            }
-	    stage('Logging into AWS ECR') {
-               agent {
-                    label 'Docker Server'
-              }
-            steps {
-                script {
-               // sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
-                 // sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
-		    sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 948406862378.dkr.ecr.us-west-1.amazonaws.com'
-        }
-             }
-        }
          stage('pushing image to ECR') {
              agent {
                  label 'Docker Server'
              }
-	    steps{
-		 script{
-		       //sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
-		      // sh “aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
-		       //sh 'docker build -t ecr-demo .'
-		       //sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
-		      sh 'docker build -t ecr-demo .'
-              sh 'docker tag ecr-demo:latest 948406862378.dkr.ecr.us-west-1.amazonaws.com/ecr-demo:latest'
-			  sh 'docker push 948406862378.dkr.ecr.us-west-1.amazonaws.com/ecr-demo:latest'
-            // sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"""
-			}
-		   }
+	        steps{
+		       script{
+		          sh 'aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 948406862378.dkr.ecr.us-west-1.amazonaws.com'
+		        // sh “aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
+		        // sh 'docker build -t ecr-demo .'
+                 sh 'docker tag ecr-demo:latest 948406862378.dkr.ecr.us-west-1.amazonaws.com/ecr-demo:latest'
+                //sh 'docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG'
+			     sh 'docker push 948406862378.dkr.ecr.us-west-1.amazonaws.com/ecr-demo:latest'
+                // sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}''
+			    }
+		    }
 	     }  	  
-          /* stage('Login to Docker Hub') { 
+          stage('Login to Docker Hub') { 
               agent {
                   label 'Docker Server'
               }
               steps{                       	
               	  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
-	            echo 'Login Completed'      
-                   }           
-                }   
+	              echo 'Login Completed'      
+                }           
+            }   
            stage('pushing image to dockerhub registry') {
               agent {
                     label 'Docker Server'
@@ -128,6 +113,6 @@ pipeline {
                      echo 'Push Image Completed'
                      //}  
                   }
-             }*/
+             }
        }
    }
