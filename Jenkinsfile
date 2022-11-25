@@ -113,7 +113,7 @@ pipeline {
                     label 'Docker Server'
                 }
                 steps{
-                    sh 'kubectl apply -f javawebapp-deployment.yml'
+                    sh 'kubectl apply -f javawebapp-deployment.yml -n sample-ns'
                 }
             }
          }
