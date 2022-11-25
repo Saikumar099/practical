@@ -11,7 +11,7 @@ pipeline {
               AWS_DEFAULT_REGION="us-west-1"
               IMAGE_REPO_NAME="ecr-demo"
               IMAGE_TAG="latest"
-              REPOSITORY_URI = "${948406862378}.dkr.ecr.${us-west-1}.amazonaws.com/${ecr-demo}"
+              REPOSITORY_URI = "public.ecr.aws/y0r0a3j7/ecr-demo"
         } 
        stages{
            stage('checkout code') {
