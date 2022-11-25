@@ -102,7 +102,7 @@ pipeline {
 			}
 		   }
 	     }  	  
-           stage('Login to Docker Hub') { 
+          /* stage('Login to Docker Hub') { 
               agent {
                   label 'Docker Server'
               }
@@ -121,6 +121,6 @@ pipeline {
                      echo 'Push Image Completed'
                      //}  
                   }
-             }
+             }*/
        }
    }
