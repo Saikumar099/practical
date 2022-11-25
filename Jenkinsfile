@@ -6,7 +6,7 @@ pipeline {
        //sonarqubescanner 'SonarQubeScanner'
       }
       environment {     
-              DOCKERHUB_CREDENTIALS= credentials('docker-hub') 
+              DOCKERHUB_CREDENTIALS=credentials('docker-hub') 
               AWS_ACCOUNT_ID="948406862378"
               AWS_DEFAULT_REGION="us-west-1"
               IMAGE_REPO_NAME="ecr-demo"
@@ -107,7 +107,7 @@ pipeline {
                   label 'Docker Server'
               }
               steps{                       	
-              	sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
+              	  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
 	            echo 'Login Completed'      
                    }           
                 }   
