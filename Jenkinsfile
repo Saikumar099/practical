@@ -76,7 +76,8 @@ pipeline {
               }
                steps{
                     //unstash 'source'
-                    sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
+                   // sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
+		    sh 'docker build -t ecr-demo .'   
               }
            }
 	    stage('Logging into AWS ECR') {
