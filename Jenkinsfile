@@ -87,9 +87,9 @@ pipeline {
              }
         }
          stage('pushing image to ECR') {
-             //agent {
-               //     label 'Docker Server'
-             //}
+             agent {
+                 label 'Docker Server'
+             }
 	    steps{
 		 script{
 		       //sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
