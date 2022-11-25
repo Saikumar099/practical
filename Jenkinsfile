@@ -95,7 +95,7 @@ pipeline {
 			    }
 		    }
 	     }  	  
-           stage('pushing image to dockerhub registry') {
+           /*stage('pushing image to dockerhub registry') {
               agent {
                     label 'Docker Server'
               }
@@ -107,6 +107,6 @@ pipeline {
                      echo 'Push Image Completed'
                      //}  
                   }
-             }
+             } */
        }
    }
