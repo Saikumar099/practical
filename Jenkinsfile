@@ -6,7 +6,7 @@ pipeline {
        //sonarqubescanner 'SonarQubeScanner'
       }
       environment {     
-              DOCKERHUB_CREDENTIALS=credentials('docker-hub') 
+              //DOCKERHUB_CREDENTIALS=credentials('docker-hub') 
               AWS_ACCOUNT_ID="948406862378"
               AWS_DEFAULT_REGION="us-west-1"
               IMAGE_REPO_NAME="ecr-demo"
