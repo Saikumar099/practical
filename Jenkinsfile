@@ -11,7 +11,7 @@ pipeline {
               AWS_DEFAULT_REGION="us-west-1"
               IMAGE_REPO_NAME="ecr-demo"
               IMAGE_TAG="latest"
-              REPOSITORY_URI ="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+              REPOSITORY_URI ="${948406862378}.dkr.ecr.${us-west-1}.amazonaws.com/${ecr-demo}"
         } 
        stages{
            stage('checkout code') {
@@ -79,17 +79,26 @@ pipeline {
                     sh 'docker build -t saikumar099/java-web-app:$BUILD_NUMBER .'
               }
            }
-         stage('pushing image to ECR') {
-             agent {
-                    label 'Docker Server'
+	    stage('Logging into AWS ECR') {
+            steps {
+                script {
+                sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                }
              }
+        }
+         stage('pushing image to ECR') {
+             //agent {
+               //     label 'Docker Server'
+             //}
 	    steps{
 		 script{
 		       //sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
-		       sh “aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
-		       sh 'docker build -t ecr-demo .'
-		       sh 'docker tag ecr-demo:latest public.ecr.aws/y0r0a3j7/ecr-demo:latest'
-		       sh 'docker push public.ecr.aws/y0r0a3j7/ecr-demo:latest'
+		      // sh “aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
+		       //sh 'docker build -t ecr-demo .'
+		       sh """docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"""
+		      // sh 'docker tag ecr-demo:latest public.ecr.aws/y0r0a3j7/ecr-demo:latest'
+		      // sh 'docker push public.ecr.aws/y0r0a3j7/ecr-demo:latest'
+			 sh """docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
 			}
 		   }
 	     }  	  
