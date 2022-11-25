@@ -7,11 +7,11 @@ pipeline {
       }
       environment {     
               DOCKERHUB_CREDENTIALS= credentials('docker-hub') 
-              AWS_ACCOUNT_ID=”948406862378”
-              AWS_DEFAULT_REGION=”us-west-1”
-              IMAGE_REPO_NAME=”ecr-demo”
-              IMAGE_TAG=”latest”
-              REPOSITORY_URI = “${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}”
+              AWS_ACCOUNT_ID="948406862378"
+              AWS_DEFAULT_REGION="us-west-1"
+              IMAGE_REPO_NAME="ecr-demo"
+              IMAGE_TAG="latest"
+              REPOSITORY_URI ="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         } 
        stages{
            stage('checkout code') {
