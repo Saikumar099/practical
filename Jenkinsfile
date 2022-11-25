@@ -6,7 +6,12 @@ pipeline {
        //sonarqubescanner 'SonarQubeScanner'
       }
       environment {     
-              DOCKERHUB_CREDENTIALS= credentials('docker-hub')     
+              DOCKERHUB_CREDENTIALS= credentials('docker-hub') 
+              AWS_ACCOUNT_ID=”948406862378”
+              AWS_DEFAULT_REGION=”us-west-1”
+              IMAGE_REPO_NAME=”ecr-demo”
+              IMAGE_TAG=”latest”
+              REPOSITORY_URI = “${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}”
         } 
        stages{
            stage('checkout code') {
@@ -47,24 +52,24 @@ pipeline {
                 }
              }
            }
-          // stage('upload artifacts to nexus') {
-              // agent {
-                //    label 'Docker Server'
-             //  }
-              //steps{
-               //   nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
-                            //               classifier: '', 
-                              //             file: 'target/java-web-app-1.0.war', 
-                                //           type: 'war']], 
-                                  //         credentialsId: 'nexus', 
-                                    //       groupId: 'com.mt', 
-                                      //     nexusUrl: '54.193.191.66:8081/', 
-                                        //   nexusVersion: 'nexus3', 
-                                          // protocol: 'http', 
-                                         //  repository: 'practical-1', 
-                                        //   version: '1.0'
-              // } 
-           //}
+          stage('upload artifacts to nexus') {
+               agent {
+                    label 'Docker Server'
+              }
+              steps{
+                 nexusArtifactUploader artifacts: [[artifactId: 'java-web-app', 
+                                       classifier: '', 
+                                       file: 'target/java-web-app-1.0.war', 
+                                       type: 'war']], 
+                                       credentialsId: 'nexus', 
+                                       groupId: 'com.mt', 
+                                       nexusUrl: '54.193.191.66:8081/', 
+                                       nexusVersion: 'nexus3', 
+                                       protocol: 'http', 
+                                       repository: 'practical-1', 
+                                      version: '1.0'
+               } 
+           }
            stage('creating tomcat image with webapp') {
               agent {
                     label 'Docker Server'
@@ -80,7 +85,8 @@ pipeline {
              }
 	    steps{
 		 script{
-		       sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
+		       //sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y0r0a3j7'
+		       sh “aws ecr get-login-password — region ${AWS_DEFAULT_REGION} | docker login — username AWS — password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com”
 		       sh 'docker build -t ecr-demo .'
 		       sh 'docker tag ecr-demo:latest public.ecr.aws/y0r0a3j7/ecr-demo:latest'
 		       sh 'docker push public.ecr.aws/y0r0a3j7/ecr-demo:latest'
