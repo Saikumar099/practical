@@ -113,7 +113,10 @@ pipeline {
                     label 'Docker Server'
                 }
                 steps{
-                    sh 'kubectl apply -f javawebapp-deployment.yml -n sample-ns'
+                    sh '''
+                    aws eks --region us-west-1 update-kubeconfig --name eks-cluster
+                    kubectl apply -f javawebapp-deployment.yml -n sample-ns
+                    '''
                 }
             }
          }
