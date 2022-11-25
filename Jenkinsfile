@@ -108,5 +108,15 @@ pipeline {
                      //}  
                   }
              } */
+            stage('deploying image to k8s') {
+                agent {
+                    label 'Docker Server'
+                }
+                steps{
+                    sh 'kubectl apply -f javawebapp-deployment.yml'
+                }
+            }
+         }
+       
        }
-   }
+     
