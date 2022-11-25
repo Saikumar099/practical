@@ -95,20 +95,13 @@ pipeline {
 			    }
 		    }
 	     }  	  
-          stage('Login to Docker Hub') { 
-              agent {
-                  label 'Docker Server'
-              }
-              steps{                       	
-              	  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
-	              echo 'Login Completed'      
-                }           
-            }   
            stage('pushing image to dockerhub registry') {
               agent {
                     label 'Docker Server'
               }
-                steps{   
+                steps{  
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                		
+	                 echo 'Login Completed'  
                   // withDockerRegistry(credentialsId: 'docker-hub', url: 'https://hub.docker.com/repository/docker/saikumar099/java-web-app') {
                      sh 'docker push saikumar099/java-web-app:$BUILD_NUMBER'
                      echo 'Push Image Completed'
